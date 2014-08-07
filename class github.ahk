@@ -28,7 +28,7 @@ class github{
 		this.http.Send(json)
 		FileDelete,github\%name%.orig
 		FileAppend,% this.http.ResponseText,github\%name%.orig
-		IniWrite,% name:=this.json("name",this.http.ResponseText),github\%name%.ini,name,name
+		IniWrite,% name:=this.json("name",this.http.ResponseText),github\%name%.ini,Repo,name
 		return name
 	}
 	CreateFile(repo,filefullpath,text,commit="First Commit",realname="",email=""){
