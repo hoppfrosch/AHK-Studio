@@ -23,9 +23,6 @@ testing(){
 			git.update(repo,filename,text,"Working on the class")
 		}
 	}
-	/*
-		FileRead,text,%A_ScriptName%
-	*/
 	;/update this script
 	/*
 		;original creation of the repo
