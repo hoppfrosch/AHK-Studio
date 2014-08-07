@@ -16,15 +16,15 @@ testing(){
 	}Else{
 		filename:=ssn(current(),"@file").text
 		text:=update({get:filename})
-		IniRead,file,github\%repo%.ini,filename,sha,0
+		IniRead,file,github\%repo%.ini,%filename%,sha,0
 		if !(file){
 			git.CreateFile(repo,filename,text,"First Commit","Chad Wilson","maestrith@gmail.com")
-		}Else
-		m("done")
+		}Else{
+			git.update(repo,filename,text,"Working on the class")
+		}
 	}
 	/*
 		FileRead,text,%A_ScriptName%
-		git.update("AHK_Github",A_ScriptFullPath,text,"Working on the class")
 	*/
 	;/update this script
 	/*
