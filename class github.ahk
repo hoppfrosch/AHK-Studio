@@ -43,11 +43,11 @@ class github{
 		RegExMatch(this.http.ResponseText,"U)"Chr(34) "sha" Chr(34) ":(.*),",found)
 		sha:=Trim(found1,Chr(34))
 		if sha
-			IniWrite,%sha%,github\%repo%,%filefullpath%,sha
+			IniWrite,%sha%,github\%repo%.ini,%filefullpath%,sha
 	}
 	Update(repo,filefullpath,text,commit="Updated",branch="master"){
 		SplitPath,filefullpath,filename
-		IniRead,sha,files.ini,%filefullpath%,sha,0
+		IniRead,sha,github\%repo%.ini,%filefullpath%,sha,0
 		if !sha
 			return m("File does not exist.  Please create the file first")
 		url:=this.url "/repos/" this.owner "/" repo "/contents/" filename this.token
@@ -60,7 +60,7 @@ class github{
 		this.http.Send(json)
 		RegExMatch(this.http.ResponseText,"U)"Chr(34) "sha" Chr(34) ":(.*),",found)
 		if sha:=Trim(found1,Chr(34))
-			IniWrite,%sha%,files.ini,%filefullpath%,sha
+			IniWrite,%sha%,github\%repo%.ini,%filefullpath%,sha
 		Else
 			m("an error occured")
 	}
