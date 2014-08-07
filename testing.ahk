@@ -23,9 +23,4 @@ testing(){
 			git.update(repo,filename,text,"Working on the class")
 		}
 	}
-	;/update this script
-	/*
-		;original creation of the repo
-	*/
-	;m("This is a test")
 }
