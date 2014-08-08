@@ -1,11 +1,17 @@
 Github_Repository(){
-	if !owner:=settings.ssn("//github/@owner").text{
-		InputBox,owner,Please enter the owner name for this repo,Enter the name associated with your account
-		if ErrorLevel
-			return m("Nothing happened.  Please try again")
-		settings.Add({path:"github",att:{owner:owner}})
+	gitinfo:=[]
+	for a,b in {owner:"Enter the username associated with your account",name:"Enter the name you want associated with your commits",email:"Enter the e-mail address associated with your commits"}{
+		if !info:=settings.ssn("//github/@" a).text{
+			InputBox,info,Required Information,%b%
+			if ErrorLevel
+				return m("All information is required. Please try again")
+		}
+		newinfo:=1
+		gitinfo[a]:=info
 	}
-	git:=new github(owner)
+	if newinfo
+		settings.Add({path:"github",att:gitinfo})
+	git:=new github(gitinfo.owner)
 	if !FileExist("github")
 		FileCreateDir,github
 	if !rep:=vversion.ssn("//*[@file='" file:=ssn(current(1),"@file").text "']")
@@ -23,6 +29,7 @@ Github_Repository(){
 	if !FileExist("github\" repo)
 		FileCreateDir,github\%repo%
 	uplist:=[],save(),cfiles:=sn(current(1),"file/@file")
+	InputBox,comment,Information Required,Please enter your commit information
 	while,filename:=cfiles.item[A_Index-1].text{
 		text:=update({get:filename})
 		SplitPath,filename,file
@@ -39,9 +46,11 @@ Github_Repository(){
 		SplashTextOn,400,150,Updating Files,%info%
 		IniRead,file,github\%repo%.ini,%filename%,sha,0
 		if !(file){
-			git.CreateFile(repo,filename,text,"First Commit","Chad Wilson","maestrith@gmail.com")
+			comment:=comment?comment:"First Commit"
+			git.CreateFile(repo,filename,text,comment,gitinfo.name,gitinfo.email)
 		}Else{
-			git.update(repo,filename,text,"Working on the class")
+			comment:=comment?comment:"Updating info"
+			git.update(repo,filename,text,comment)
 		}
 	}
 	SplashTextOff
