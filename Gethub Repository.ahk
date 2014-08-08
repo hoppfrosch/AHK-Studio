@@ -31,7 +31,7 @@ Github_Repository(){
 			}
 		}
 		for filename,text in uplist{
-			SplashTextOn,,,Updating Files,Updating file %filename%
+			SplashTextOn,,150,Updating Files,Updating file %filename%
 			IniRead,file,github\%repo%.ini,%filename%,sha,0
 			if !(file){
 				git.CreateFile(repo,filename,text,"First Commit","Chad Wilson","maestrith@gmail.com")
