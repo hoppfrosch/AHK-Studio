@@ -16,9 +16,7 @@ Github_Repository(){
 	}Else{
 		if !FileExist("github\" repo)
 			FileCreateDir,github\%repo%
-		uplist:=[]
-		cfiles:=sn(current(1),"file/@file")
-		save()
+		uplist:=[],save(),cfiles:=sn(current(1),"file/@file")
 		while,filename:=cfiles.item[A_Index-1].text{
 			text:=update({get:filename})
 			SplitPath,filename,file
