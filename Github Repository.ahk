@@ -3,7 +3,7 @@ Github_Repository(){
 		InputBox,owner,Please enter the owner name for this repo,Enter the name associated with your account
 		if ErrorLevel
 			return m("Nothing happened.  Please try again")
-		settings.Add({path:github,att:{owner:owner}})
+		settings.Add({path:"github",att:{owner:owner}})
 	}
 	git:=new github(owner)
 	if !FileExist("github")
