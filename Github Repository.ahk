@@ -1,5 +1,11 @@
 Github_Repository(){
-	git:=new github("maestrith")
+	if !owner:=settings.ssn("//github/@owner").text{
+		InputBox,owner,Please enter the owner name for this repo,Enter the name associated with your account
+		if ErrorLevel
+			return m("Nothing happened.  Please try again")
+		settings.Add({path:github,att:{owner:owner}})
+	}
+	git:=new github(owner)
 	if !FileExist("github")
 		FileCreateDir,github
 	if !rep:=vversion.ssn("//*[@file='" file:=ssn(current(1),"@file").text "']")
