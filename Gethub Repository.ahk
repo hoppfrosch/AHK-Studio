@@ -31,6 +31,7 @@ Github_Repository(){
 			}
 		}
 		for filename,text in uplist{
+			t(filename)
 			SplashTextOn,200,150,Updating Files,% "Updating file " filename
 			IniRead,file,github\%repo%.ini,%filename%,sha,0
 			if !(file){
