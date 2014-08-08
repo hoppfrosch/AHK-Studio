@@ -2,6 +2,7 @@
 ;download complete
 ;Clipboard:=A_AhkVersion
 /*
+	get github working
 	tidy up script:
 	-Arrows.ahk is where I left off.
 	KeyboardCat
@@ -75,6 +76,7 @@ return
 #Include check id.ahk
 #Include Class Code Explorer.ahk
 #Include class ftp.ahk
+#Include class github.ahk
 #Include class icon browser.ahk
 #Include class rebar.ahk
 #Include class s.ahk
@@ -127,6 +129,7 @@ return
 #Include function search.ahk
 #Include get access.ahk
 #Include getpos.ahk
+#Include Github Repository.ahk
 #Include global.ahk
 #Include google search selected.ahk
 #Include gui.ahk
@@ -243,5 +246,3 @@ return
 #Include window.ahk
 #Include WM COPYDATA.ahk
 #Include Words In Document.ahk
-#Include class github.ahk
-#Include Gethub Repository.ahk
