@@ -19,31 +19,30 @@ Github_Repository(){
 			rep.SetAttribute("repo",name)
 		Else
 			return m("An error occured")
-	}Else{
-		if !FileExist("github\" repo)
-			FileCreateDir,github\%repo%
-		uplist:=[],save(),cfiles:=sn(current(1),"file/@file")
-		while,filename:=cfiles.item[A_Index-1].text{
-			text:=update({get:filename})
-			SplitPath,filename,file
-			FileRead,compare,github\%repo%\%file%
-			StringReplace,compare,compare,`r`n,`n,All
-			if (text!=compare){
-				FileDelete,github\%repo%\%file%
-				FileAppend,%text%,github\%repo%\%file%,utf-8
-				uplist[file]:=text
-			}
-		}
-		for filename,text in uplist{
-			info:="Updating file " filename
-			SplashTextOn,400,150,Updating Files,%info%
-			IniRead,file,github\%repo%.ini,%filename%,sha,0
-			if !(file){
-				git.CreateFile(repo,filename,text,"First Commit","Chad Wilson","maestrith@gmail.com")
-			}Else{
-				git.update(repo,filename,text,"Working on the class")
-			}
-		}
-		SplashTextOff
 	}
+	if !FileExist("github\" repo)
+		FileCreateDir,github\%repo%
+	uplist:=[],save(),cfiles:=sn(current(1),"file/@file")
+	while,filename:=cfiles.item[A_Index-1].text{
+		text:=update({get:filename})
+		SplitPath,filename,file
+		FileRead,compare,github\%repo%\%file%
+		StringReplace,compare,compare,`r`n,`n,All
+		if (text!=compare){
+			FileDelete,github\%repo%\%file%
+			FileAppend,%text%,github\%repo%\%file%,utf-8
+			uplist[file]:=text
+		}
+	}
+	for filename,text in uplist{
+		info:="Updating file " filename
+		SplashTextOn,400,150,Updating Files,%info%
+		IniRead,file,github\%repo%.ini,%filename%,sha,0
+		if !(file){
+			git.CreateFile(repo,filename,text,"First Commit","Chad Wilson","maestrith@gmail.com")
+		}Else{
+			git.update(repo,filename,text,"Working on the class")
+		}
+	}
+	SplashTextOff
 }
