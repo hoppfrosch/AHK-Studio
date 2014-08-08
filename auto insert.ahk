@@ -1,6 +1,6 @@
 Auto_Insert(){
 	static
-	setup(20) 
+	setup(20)
 	Gui,Add,ListView,w200 h200 AltSubmit gchange,Entered Key|Added Key
 	Gui,Add,Text,,Entered Key:
 	Gui,Add,Edit,venter x+10 w50
