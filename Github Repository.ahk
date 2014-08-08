@@ -18,7 +18,7 @@ Github_Repository(){
 			FileCreateDir,github\%repo%
 		uplist:=[]
 		cfiles:=sn(current(1),"file/@file")
-		save( )
+		save()
 		while,filename:=cfiles.item[A_Index-1].text{
 			text:=update({get:filename})
 			SplitPath,filename,file
