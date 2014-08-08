@@ -29,7 +29,6 @@ Github_Repository(){
 	if !FileExist("github\" repo)
 		FileCreateDir,github\%repo%
 	uplist:=[],save(),cfiles:=sn(current(1),"file/@file")
-	InputBox,comment,Information Required,Please enter your commit information
 	while,filename:=cfiles.item[A_Index-1].text{
 		text:=update({get:filename})
 		SplitPath,filename,file
@@ -38,9 +37,11 @@ Github_Repository(){
 		if (text!=compare){
 			FileDelete,github\%repo%\%file%
 			FileAppend,%text%,github\%repo%\%file%,utf-8
-			uplist[file]:=text
+			uplist[file]:=text,ask:=1
 		}
 	}
+	if ask
+		InputBox,comment,Information Required,Please enter your commit information
 	for filename,text in uplist{
 		info:="Updating file " filename
 		SplashTextOn,400,150,Updating Files,%info%
