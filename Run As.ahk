@@ -8,6 +8,8 @@ run_as_u32(){
 	run_as("\AutoHotkeyU32.exe")
 }
 run_as(ahk){
+	if !current(1).xml
+		return
 	save()
 	SplitPath,A_AhkPath,,dir
 	ahk:=dir ahk
