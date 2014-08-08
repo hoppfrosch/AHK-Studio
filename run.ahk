@@ -1,4 +1,6 @@
 run(){
+	if !current(1).xml
+		return
 	sc:=csc(),save()
 	main:=files.ssn("//*[@sc='" sc.2357 "']..")
 	file:=ssn(main,"@file").text
