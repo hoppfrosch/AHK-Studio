@@ -12,6 +12,7 @@ hotkeys(win,item=""){
 			Hotkey,%key%,%launch%,On
 		}
 	}
+	Hotkey,IfWinActive
 	return
 	hotkey:
 	ControlFocus,Edit1,% hwnd([1])
