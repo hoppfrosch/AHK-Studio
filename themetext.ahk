@@ -1,5 +1,4 @@
 themetext(theme=1){
-	
 	if name:=settings.ssn("//fonts/name").text
 		header:=name "`r`n`r`n"
 	if author:=settings.ssn("//fonts/author").text
