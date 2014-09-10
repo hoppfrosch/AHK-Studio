@@ -157,6 +157,7 @@ return
 #Include fix after.ahk
 #Include fix indent.ahk
 #Include focus.ahk
+#Include fold.ahk
 #Include ftp servers.ahk
 #Include full backup.ahk
 #Include function search.ahk
@@ -207,6 +208,7 @@ return
 #Include OtherInstance.ahk
 #Include paste.ahk
 #Include Personal Variable List.ahk
+#Include Plugins.ahk
 #Include popftp.ahk
 #Include posinfo.ahk
 #Include post all in one gist.ahk

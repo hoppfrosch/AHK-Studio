@@ -9,7 +9,6 @@ omni_search(start=""){
 	WinGetPos,x,y,w,h,% hwnd([1])
 	width:=w-50,newwin.Add(["Edit,goss w" width " vsearch," start,"ListView,w" width " r15 -hdr -Multi gosgo,Menu Command|Additional|1|2|Rating|index"])
 	Gui,20:-Caption
-	DetectHiddenWindows,On
 	hotkeys([20],{up:"omniup",down:"omnidown","^Backspace":"deleteback",Enter:"osgo"}),select:=[]
 	newwin.Show("Omni-Search",Center(20))
 	ControlSend,Edit1,^{End},% hwnd([20])

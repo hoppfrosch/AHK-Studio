@@ -1,45 +1,17 @@
-gui(futureuse=""){
+gui(){
 	Gui,+Resize +hwndhwnd
-	OnMessage(5,"Resize"),hwnd(1,hwnd),ComObjError(0),v.startup:=1
-	OnMessage(6,"focus")
-	Hotkey,IfWinActive,% hwnd([1])
-	Hotkey,~Enter,checkqf,On
-	for a,b in ["+","!","^"]
-		Hotkey,%b%Enter,checkqf,On
-	hk(1)
-	SysGet,Border,33
-	SysGet,Caption,4
-	v.border:=border,v.caption:=caption
+	OnMessage(5,"Resize"),hwnd(1,hwnd),ComObjError(0),v.startup:=1,hk(1),OnMessage(6,"focus"),enter:=[]
+	for a,b in ["+","!","^","~"]
+		Enter[b "Enter"]:="checkqf"
+	Enter["^c"]:="copy",hotkeys([1],enter)
 	new s(1,{main:1}),v.win2:=win2,v.win3:=win3
 	Gui,Add,StatusBar,hwndsb,StatusBar Info
-	SB_SetParts(400,400)
 	ControlGetPos,,,,h,,ahk_id%sb%
-	v.StatusBar:=h,v.sbhwnd:=sb
-	DetectHiddenWindows,On
-	rb:=new rebar(1,hwnd),v.rb:=rb,pos:=settings.ssn("//gui/position[@window='1']")
+	v.StatusBar:=h,v.sbhwnd:=sb,rb:=new rebar(1,hwnd),v.rb:=rb,pos:=settings.ssn("//gui/position[@window='1']")
 	max:=ssn(pos,"@max").text?"Maximize":"",pos:=pos.text?pos.text:"w750 h500",bar:=[],band:=[]
 	bar.10000:=[[4,"shell32.dll","Open","Open",10000,4],[8,"shell32.dll","Save","Save",10001,4],[137,"shell32.dll","Run","Run",10003,4],[249,"shell32.dll","Check_For_Update","Check For Update",10004,4],[100,"shell32.dll","New_Scintilla_Window","New Scintilla Window",10005,4],[271,"shell32.dll","Remove_Scintilla_Window","Remove Scintilla Window",10006,4]]
 	bar.10001:=[[110,"shell32.dll","open_folder","Open Folder",10000,4],[135,"shell32.dll","google_search_selected","Google Search Selected",10001,4],[261,"shell32.dll","Menu_Editor","Menu Editor",10003,4]]
 	bar.10002:=[[18,"shell32.dll","Connect","Connect",10000,4],[22,"shell32.dll","Debug_Current_Script","Debug Current Script",10001,4],[21,"shell32.dll","ListVars","List Variables",10002,4],[137,"shell32.dll","Run_Program","Run Program",10003,4],[27,"shell32.dll","stop","Stop",10004,4]]
-	if bardef:=settings.ssn("//toolbar/default"){ ;backward compatibility
-		barvis:=settings.ssn("//toolbar/visible"),lbd:=sn(bardef,"*"),top:=settings.ssn("//toolbar")
-		while,ll:=lbd.item[A_Index-1]{
-			top.appendchild(ll),lll:=sn(ll,"*")
-			while,llll:=lll.item[A_Index-1]{
-				vis:=ssn(barvis,"bar[@id='" ssn(ll,"@id").text "']/button[@id='" ssn(llll,"@id").text "']").xml?1:0
-				llll.setattribute("vis",vis)
-			}
-		}
-		for a,b in [bardef,barvis]
-			b.parentnode.removechild(b)
-	}
-	if bandvis:=settings.ssn("//rebar/visible"){
-		banddef:=settings.ssn("//rebar/default/bands"),lbd:=sn(bandvis,"*"),top:=settings.add({path:"rebar"})
-		while,ll:=lbd.item[A_Index-1]
-			ll.setattribute("vis",1),top.appendchild(ll)
-		for a,b in [banddef.parentnode,bandvis]
-			b.parentnode.removechild(b)
-	} ;/backward compatibility
 	for id,info in bar
 	for a,b in info{
 		if !top:=settings.ssn("//toolbar/bar[@id='" id "']")
@@ -60,7 +32,7 @@ gui(futureuse=""){
 	for a,b in band
 		if !settings.ssn("//rebar/band[@id='" a "']")
 			settings.add({path:"rebar/band",att:{id:a,width:150,vis:1},dup:1})
-	toolbars:=settings.sn("//toolbar/bar")
+	toolbars:=settings.sn("//toolbar/bar"),bands:=settings.sn("//rebar/*[@vis='1']")
 	while,bb:=toolbars.item[A_Index-1]{
 		buttons:=sn(bb,"*"),tb:=new toolbar(1,hwnd,ssn(bb,"@id").text)
 		while,button:=buttons.item[A_Index-1]
@@ -69,7 +41,6 @@ gui(futureuse=""){
 	visible:=settings.sn("//toolbar/*/*[@vis='1']")
 	while,vis:=Visible.item[A_Index-1]
 		tb:=toolbar.list[ssn(vis.parentnode,"@id").text],tb.addbutton(ssn(vis,"@id").text)
-	bands:=settings.sn("//rebar/*[@vis='1']")
 	while,bb:=bands.item[A_Index-1]{
 		if (bb.nodename="newline"){
 			newline:=1
@@ -82,14 +53,11 @@ gui(futureuse=""){
 			ea.width:=toolbar.list[ea.id].barinfo().ideal+20
 		rb.add(ea,newline),newline:=0
 	}
-	msg:=["What do you think?`r`nRight Click a `r`nToolbar to customize it`r`nControl+Click a toolbar icon to change the icon","I like it"]
-	for a,b in s.main
-		b.2242(0,20),b.2242(1,0),b.2181(0,msg[A_Index])
-	open:=settings.sn("//open/*")
-	Gui,1:Add,TreeView,Background0 c0xAAAAAA gtv hwndtv
-	Gui,1:Add,TreeView,Background0 c0xAAAAAA AltSubmit gcej hwndtv2
+	Gui,1:Add,TreeView,gtv hwndtv
+	Gui,1:Add,TreeView,AltSubmit gcej hwndtv2
+	GuiControl,1:-Redraw,SysTreeView321
 	TV_Add("Open files to have items populated here"),TV_Add("Right click to refresh")
-	hwnd("fe",tv),hwnd("ce",tv2),refreshthemes(),debug.off(),list:=menus.sn("//main/descendant::*")
+	hwnd("fe",tv),hwnd("ce",tv2),refreshthemes(),debug.off(),list:=menus.sn("//main/descendant::*"),open:=settings.sn("//open/*")
 	Gui,1:TreeView,% hwnd("fe")
 	Gui,1:Menu,% Menu("main")
 	Gui,1:Menu
@@ -98,7 +66,6 @@ gui(futureuse=""){
 		Menu,% clean(parent),DeleteAll
 	}
 	Gui,1:Menu,% Menu("main")
-	;m(pos:=settings.ssn("//gui/position[@window='1']").text,settings.ssn("//position").xml)
 	Gui,1:Show,%pos% %max%,AHK Studio
 	while,oo:=open.item[A_Index-1]{
 		if FileExist(oo.text)
@@ -127,8 +94,6 @@ gui(futureuse=""){
 		}
 		csc({hwnd:s.main.1.sc}).2400
 	}
-	SplashTextOn,200,50,Indexing Files,Please Wait...
-	code_explorer.populate(),hotkeys([1],{"^c":"copy"})
-	SplashTextOff
+	code_explorer.populate()
 	Gui,1:TreeView,SysTreeView321
 }

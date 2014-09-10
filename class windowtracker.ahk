@@ -1,7 +1,6 @@
 class WindowTracker{
 	static winlist:=[],set:=[],defaulttext:="i)(versioninfo)"
 	__New(win){
-		DetectHiddenWindows,On
 		OnMessage(0x232,"Resize"),hwnd:=setup(win)
 		this.win:=win,this.hwnd:=hwnd,this.ahkid:="ahk_id" hwnd,this.type:=[]
 		this.tracker:=[],this.resize:=[],WindowTracker.winlist[win]:=this,this.varlist:=[]
